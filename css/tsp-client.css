@@ -1,0 +1,49 @@
+html { 
+	height: 99% 
+}
+
+body { 
+	height: 98%; 
+	margin: 0; 
+	padding: 0 
+}
+
+table {
+	text-align: center;
+}
+
+table, th, td {
+   border: 1px solid black;
+}
+
+table th,
+table td {
+	padding: 3px;
+	height: 30px;
+	width: 100px;
+}
+    
+.jumbotron {      
+	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#map {
+	width:85%; 
+	height:100%;
+	float:left
+}
+
+#action {
+	width:15%; 
+	height: 100%; 
+	float: left
+}
+
+.loading {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+

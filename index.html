@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html>
+<meta charset="UTF-8">
+<head>
+  <title>Algoritmos e Heurísticas - Prof. Dalessandro Vianna</title>
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+  <link rel="stylesheet" type="text/css" href="lib/bootstrap/css/bootstrap.css">
+  <link rel="stylesheet" type="text/css" href="css/tsp-client.css">
+
+  <script type="text/javascript" src="lib/jquery/jquery-3.1.0.min.js"></script>
+  <script type="text/javascript" src="lib/bootstrap/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDnLCd5K8Zi1l-3CNwOv9L9aUODhrt9UiI"></script>
+  <script type="text/javascript" src="lib/custom-maps.js"></script>
+  <script type="text/javascript" src="lib/tsp-client.js"></script>
+
+  <!-- Como fazer requisição para descobrir a distancia entre dois pontos
+  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/distancematrix/json?origins=-41.1345778,-71.4799992&destinations=-22.2818204,-42.1180508&key=AIzaSyDnLCd5K8Zi1l-3CNwOv9L9aUODhrt9UiI">
+  -->
+  </script>
+
+  <script type="text/javascript">
+
+    $(function() {
+      var clientJS = new TSPClient();
+      $('body').on('load', clientJS.initialize());
+      $('#btnExecutar').bind('click', function(){ clientJS.run(); });
+      $('#btnReset').bind('click', function(){ clientJS.initialize() });
+      $('#btnMatrizDistancia').bind('click', function(){ clientJS.distance() });
+    });
+
+  </script>
+</head>
+  <body>
+
+    <div id="map"></div>
+    <div id="action">
+      <div class="jumbotron">
+        <h3>Painel de Ações</h3>
+      </div>
+      <button class="btn btn-success btn-block" id="btnExecutar">Executar!</button>
+      <button class="btn btn-primary btn-block" id="btnReset">Restaurar Default</button>
+      <button class="btn btn-info btn-block" id="btnMatrizDistancia">Matriz de Distâncias</button>
+      <button class="btn btn-info btn-block" data-toggle="modal" data-target="#modalAbout">Sobre</button>
+    </div>
+
+    <div id="modalAbout" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Sobre</h4>
+          </div>
+          <div class="modal-body">
+            <p>Trabalho realizado pelos alunos do mestrado profisisonal da turma de 2016 Victor Rios de Souza e Ivancleber Neves, para a disciplina de Algoritmos e Heurísticas ministrada pelo <a href="http://www.professores.uff.br/dalessandro/">Prof. Dr. Dalessandro Soares Vianna</a>.</p>
+            <p>Realizada implementação de algoritmo GRASP, sendo a solução de construção utilizando a estratégia gulosa através do vizinho mais próximo e para o refinamento usando movimento 2-opt.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="modalDistancia" class="modal fade" role="dialog">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Matriz de Distâncias</h4>
+          </div>
+          <div class="modal-body">
+            <table id="matrizDistancia" style="font-size:9px;">
+              <thead>
+                <th>-</th>
+                <th>Bariloche</th>
+                <th>Bonito</th>
+                <th>Brasilia</th>
+                <th>Buenos Aires</th>
+                <th>Campos do Jordão</th>
+                <th>Campos dos Goytacazes</th>
+                <th>Cartagena</th>
+                <th>Cusco</th>
+                <th>Foz do Iguaçu</th>
+                <th>Gramado</th>
+                <th>Macaé</th>
+                <th>Manaus</th>
+                <th>Natal</th>
+                <th>Rio de Janeiro</th>
+                <th>Vitória</th>
+              </thead>
+              <tbody>
+                <tr>
+                <td>Bariloche</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                </tr>
+                <tr>
+                <td>Bonito</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                </tr>
+                <tr>
+                <td>Brasilia</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                </tr>
+                <tr>
+                <td>Buenos Aires</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                </tr>
+                <tr>
+                <td>Campos do Jordão</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                </tr>
+                <tr>
+                <td>Campos dos Goytacazes</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                </tr>
+                <tr>
+                <td>Cartagena</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                </tr>
+                <tr>
+                <td>Cusco</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                </tr>
+                <tr>
+                <td>Foz do Iguaçu</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                </tr>
+                <tr>
+                <td>Gramado</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                </tr>
+                <tr>
+                <td>Macaé</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                </tr>
+                <tr>
+                <td>Manaus</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                </tr>
+                <tr>
+                <td>Natal</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                </tr>
+                <tr>
+                <td>Rio de Janeiro</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                </tr>
+                <tr>
+                <td>Vitória</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="modalLoading" class="modal fade" role="dialog">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" style="text-align:center">Processando</h4>
+            <img src="img/ajax-loader.gif" class="loading">
+          </div>          
+        </div>
+      </div>
+    </div>
+
+  </body>
+</html>	
